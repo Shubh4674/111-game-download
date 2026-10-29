@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royale Card Lounge - Premier Digital Card Gaming Platform</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                        },
+                        crimson: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                            800: '#9f1239',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #faf8f5;
+            color: #1f2937;
+            overflow-x: hidden;
+        }
+        
+        .serif-heading {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Apple-style smooth glassmorphism */
+        .apple-glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+        }
+
+        .apple-glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(225, 29, 72, 0.08);
+            box-shadow: 0 20px 40px -15px rgba(217, 119, 6, 0.08);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .apple-glass-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 30px 60px -12px rgba(225, 29, 72, 0.15);
+            border-color: rgba(217, 119, 6, 0.3);
+        }
+
+        /* Gold-Red gradient text */
+        .gradient-text-gold {
+            background: linear-gradient(135deg, #b45309 0%, #be123c 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-bg-light {
+            background: radial-gradient(circle at 10% 20%, rgba(254, 243, 199, 0.6) 0%, rgba(255, 241, 242, 0.7) 45.5%, rgba(250, 248, 245, 1) 90.2%);
+        }
+
+        /* Smooth scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #faf8f5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fcd34d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
+        }
+
+        /* Floating animation */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+        .animate-float {
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+
+        /* Pulse glow */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; filter: blur(40px); }
+            50% { opacity: 0.7; filter: blur(60px); }
+        }
+        .glow-effect {
+            animation: pulseGlow 5s infinite;
+        }
+
+        .tab-btn.active {
+            color: #be123c;
+            border-bottom: 2px solid #be123c;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-rose-100 selection:text-rose-900">
+
+    <!-- Ambient Glowing Background Elements -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-amber-200/40 rounded-full mix-blend-multiply filter blur-3xl -z-10 pointer-events-none glow-effect"></div>
+    <div class="fixed top-1/3 right-10 w-96 h-96 bg-rose-200/40 rounded-full mix-blend-multiply filter blur-3xl -z-10 pointer-events-none glow-effect" style="animation-delay: 2s;"></div>
+    <div class="fixed bottom-10 left-10 w-80 h-80 bg-orange-200/40 rounded-full mix-blend-multiply filter blur-3xl -z-10 pointer-events-none glow-effect" style="animation-delay: 4s;"></div>
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 apple-glass transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-500 via-rose-500 to-amber-300 p-0.5 shadow-lg shadow-rose-500/20">
+                        <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
+                            <i class="fa-solid font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-rose-600 text-xl">R</i>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight serif-heading gradient-text-gold">Royale Card</span>
+                        <span class="block text-[10px] tracking-widest uppercase font-semibold text-amber-700/70 -mt-1">Lounge Studio</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 bg-amber-500/5 p-1.5 rounded-full border border-amber-200/30">
+                    <button onclick="switchTab('home')" id="nav-home" class="tab-btn px-5 py-2 text-sm font-medium rounded-full text-gray-700 hover:text-rose-600 transition-all duration-300 active">Home</button>
+                    <button onclick="switchTab('service')" id="nav-service" class="tab-btn px-5 py-2 text-sm font-medium rounded-full text-gray-700 hover:text-rose-600 transition-all duration-300">Services</button>
+                    <button onclick="switchTab('about')" id="nav-about" class="tab-btn px-5 py-2 text-sm font-medium rounded-full text-gray-700 hover:text-rose-600 transition-all duration-300">About Us</button>
+                    <button onclick="switchTab('blog')" id="nav-blog" class="tab-btn px-5 py-2 text-sm font-medium rounded-full text-gray-700 hover:text-rose-600 transition-all duration-300">Blog Guide</button>
+                    <button onclick="switchTab('contact')" id="nav-contact" class="tab-btn px-5 py-2 text-sm font-medium rounded-full text-gray-700 hover:text-rose-600 transition-all duration-300">Contact</button>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="hidden sm:block">
+                    <button onclick="switchTab('service')" class="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 bg-gradient-to-r from-amber-600 via-rose-600 to-amber-700 rounded-full shadow-lg shadow-rose-500/25 hover:shadow-xl hover:shadow-rose-600/35 hover:scale-105 active:scale-95">
+                        <i class="fa-solid fa-download mr-2 text-xs"></i> Get Started
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Toggle Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-xl text-gray-700 hover:bg-amber-100/50 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-6 bg-white/95 backdrop-blur-md border-b border-amber-100">
+            <div class="flex flex-col space-y-2">
+                <button onclick="switchTab('home')" class="text-left px-4 py-2.5 rounded-xl font-medium text-gray-800 hover:bg-amber-50">Home</button>
+                <button onclick="switchTab('service')" class="text-left px-4 py-2.5 rounded-xl font-medium text-gray-800 hover:bg-amber-50">Services</button>
+                <button onclick="switchTab('about')" class="text-left px-4 py-2.5 rounded-xl font-medium text-gray-800 hover:bg-amber-50">About Us</button>
+                <button onclick="switchTab('blog')" class="text-left px-4 py-2.5 rounded-xl font-medium text-gray-800 hover:bg-amber-50">Blog Guide</button>
+                <button onclick="switchTab('contact')" class="text-left px-4 py-2.5 rounded-xl font-medium text-gray-800 hover:bg-amber-50">Contact</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Dynamic Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <!-- PAGE 1: HOME PAGE -->
+        <section id="page-home" class="space-y-20 animate-fadeIn">
+            <!-- Hero Section -->
+            <div class="relative rounded-3xl p-8 sm:p-12 md:p-16 gradient-bg-light border border-amber-200/50 overflow-hidden shadow-2xl shadow-amber-900/5">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-700 text-xs font-semibold uppercase tracking-wider">
+                            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> Next-Gen Card Entertainment
+                        </div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold serif-heading text-gray-900 leading-tight">
+                            Master Strategy in <span class="gradient-text-gold">Royale Luxury</span> Style
+                        </h1>
+                        <p class="text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                            Experience smooth gameplay, elite tournaments, and ultra-secure multiplayer card gaming built with Apple-grade precision and unmatched responsiveness.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+                            <button onclick="switchTab('service')" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-rose-600 to-amber-600 text-white font-bold shadow-xl shadow-rose-500/20 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-gamepad"></i> Explore Game Suite
+                            </button>
+                            <button onclick="switchTab('blog')" class="px-8 py-4 rounded-2xl bg-white/80 hover:bg-white text-gray-800 font-bold border border-amber-200 hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-book-open"></i> Player Guide
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-5 relative flex justify-center">
+                        <div class="relative w-full max-w-md animate-float">
+                            <!-- Unsplash card gaming luxury image (Text free) -->
+                            <img src="https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=800&q=80" alt="Royal Gaming Experience" class="rounded-3xl shadow-2xl border-4 border-white/80 object-cover w-full h-80 sm:h-96" onerror="this.src='https://placehold.co/800x600/fef3c7/be123c?text=Royale+Gaming'">
+                            <div class="absolute -bottom-6 -left-6 apple-glass-card p-4 rounded-2xl flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-700 text-xl font-bold">
+                                    <i class="fa-solid fa-trophy"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-500 uppercase font-semibold">Active Players</div>
+                                    <div class="text-lg font-extrabold text-gray-900">500,000+ Online</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emotional Features Grid -->
+            <div class="space-y-8">
+                <div class="text-center max-w-2xl mx-auto space-y-3">
+                    <h2 class="text-3xl font-bold serif-heading text-gray-900">Designed for True Enthusiasts</h2>
+                    <p class="text-gray-600">Immerse yourself in an ambiance where every detail is calibrated for pure adrenaline and elegance.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="apple-glass-card p-8 rounded-3xl space-y-4">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600 text-2xl font-bold">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Ultra-Fast Engine</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">Zero-latency card dealing paired with fluid 60 FPS transitions ensures every move feels instant and satisfying.</p>
+                    </div>
+
+                    <div class="apple-glass-card p-8 rounded-3xl space-y-4">
+                        <div class="w-14 h-14 rounded-2xl bg-rose-100 flex items-center justify-center text-rose-600 text-2xl font-bold">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Certified Integrity</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">Algorithmic Random Number Generation guarantees transparent dealing and equal distribution every round.</p>
+                    </div>
+
+                    <div class="apple-glass-card p-8 rounded-3xl space-y-4">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-700 text-2xl font-bold">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">VIP Lounge Suite</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">Unlock personalized tables, custom card decks, and tailored rewards designed exclusively for tactical card strategists.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Preview Card Deck Section -->
+            <div class="apple-glass p-8 sm:p-12 rounded-3xl border border-amber-200/50 space-y-6 text-center">
+                <h2 class="text-2xl sm:text-3xl font-bold serif-heading text-gray-900">Experience Real-Time Elegance</h2>
+                <p class="text-gray-600 max-w-xl mx-auto text-sm">Click below to interact with our digital deck shuffling engine and preview the fluid physics.</p>
+
+                <div id="shuffle-area" class="py-10 flex justify-center items-center gap-4">
+                    <div class="w-24 h-36 rounded-xl bg-gradient-to-br from-amber-500 to-rose-600 text-white flex items-center justify-center font-bold text-2xl shadow-xl transform hover:-rotate-6 transition-all duration-300">♠ A</div>
+                    <div class="w-24 h-36 rounded-xl bg-gradient-to-br from-rose-600 to-amber-500 text-white flex items-center justify-center font-bold text-2xl shadow-xl transform hover:rotate-6 transition-all duration-300">♥ K</div>
+                    <div class="w-24 h-36 rounded-xl bg-gradient-to-br from-amber-600 to-rose-700 text-white flex items-center justify-center font-bold text-2xl shadow-xl transform hover:-rotate-3 transition-all duration-300">♦ Q</div>
+                </div>
+
+                <button onclick="shuffleEffect()" class="px-6 py-2.5 bg-amber-500/10 border border-amber-300 text-amber-800 rounded-full font-semibold hover:bg-amber-500/20 active:scale-95 transition-all duration-200 text-sm">
+                    <i class="fa-solid fa-arrows-rotate mr-2"></i> Shuffle Interactive Preview
+                </button>
+            </div>
+        </section>
+
+        <!-- PAGE 2: SERVICES PAGE -->
+        <section id="page-service" class="hidden space-y-16 animate-fadeIn">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+                <span class="text-xs uppercase font-bold tracking-widest text-rose-600 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">Our Offerings</span>
+                <h1 class="text-4xl font-extrabold serif-heading text-gray-900">Services & Platform Specs</h1>
+                <p class="text-gray-600">Discover full-spectrum gaming formats built specifically for modern card gamers.</p>
+            </div>
+
+            <!-- Unsplash image banner -->
+            <div class="relative rounded-3xl overflow-hidden h-64 sm:h-80 shadow-xl border border-amber-200/50">
+                <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=1200&q=80" alt="Card Gaming Lounge" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1200x500/fef3c7/be123c?text=Card+Gaming+Lounge'">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-8">
+                    <p class="text-white text-lg font-medium max-w-xl">Smooth multi-device integration across smartphones, tablets, and desktop browsers.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Item 1 -->
+                <div class="apple-glass-card p-8 rounded-3xl space-y-4 border border-amber-200/30">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-amber-500 to-rose-500 text-white flex items-center justify-center font-bold text-xl">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">Multi-Variant Lobby</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Play Points, Pool 101/201, or Deals modes effortlessly. Pick your favorite table dynamics with customizable buy-ins.</p>
+                </div>
+
+                <!-- Service Item 2 -->
+                <div class="apple-glass-card p-8 rounded-3xl space-y-4 border border-amber-200/30">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-rose-500 to-amber-600 text-white flex items-center justify-center font-bold text-xl">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">One-Tap Deployment</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Lightweight application architecture allowing instant launching, fast loading, and minimal battery consumption.</p>
+                </div>
+
+                <!-- Service Item 3 -->
+                <div class="apple-glass-card p-8 rounded-3xl space-y-4 border border-amber-200/30">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-amber-600 to-rose-600 text-white flex items-center justify-center font-bold text-xl">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">24/7 Player Concierge</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Round-the-clock technical assistance ensuring uninterrupted entertainment and instant queries resolution.</p>
+                </div>
+            </div>
+
+            <!-- Installation / Service Guide Steps -->
+            <div class="gradient-bg-light p-8 sm:p-12 rounded-3xl border border-amber-200/60 space-y-8">
+                <h2 class="text-2xl sm:text-3xl font-bold serif-heading text-center text-gray-900">Quick Start Experience</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white/80 p-6 rounded-2xl shadow-sm border border-amber-100 text-center space-y-3">
+                        <span class="w-10 h-10 rounded-full bg-rose-500 text-white font-extrabold flex items-center justify-center mx-auto text-lg">1</span>
+                        <h4 class="font-bold text-gray-900">Access Portal</h4>
+                        <p class="text-xs text-gray-600">Navigate to our official portal link via your mobile or desktop device.</p>
+                    </div>
+                    <div class="bg-white/80 p-6 rounded-2xl shadow-sm border border-amber-100 text-center space-y-3">
+                        <span class="w-10 h-10 rounded-full bg-amber-500 text-white font-extrabold flex items-center justify-center mx-auto text-lg">2</span>
+                        <h4 class="font-bold text-gray-900">Download Application</h4>
+                        <p class="text-xs text-gray-600">Securely download the verified installer package optimized for your operating system.</p>
+                    </div>
+                    <div class="bg-white/80 p-6 rounded-2xl shadow-sm border border-amber-100 text-center space-y-3">
+                        <span class="w-10 h-10 rounded-full bg-rose-600 text-white font-extrabold flex items-center justify-center mx-auto text-lg">3</span>
+                        <h4 class="font-bold text-gray-900">Enjoy Tables</h4>
+                        <p class="text-xs text-gray-600">Sign in, customize your player profile, and enter high-stakes or casual game rooms.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: ABOUT PAGE -->
+        <section id="page-about" class="hidden space-y-16 animate-fadeIn">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+                <span class="text-xs uppercase font-bold tracking-widest text-amber-700 bg-amber-100 px-3 py-1 rounded-full border border-amber-200">Our Identity</span>
+                <h1 class="text-4xl font-extrabold serif-heading text-gray-900">Redefining Digital Card Skill</h1>
+                <p class="text-gray-600">Combining classical card gaming traditions with luxury digital aesthetics.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h2 class="text-2xl sm:text-3xl font-bold serif-heading text-gray-900">Built on Transparency, Precision & Passion</h2>
+                    <p class="text-gray-600 leading-relaxed text-sm sm:text-base">
+                        At Royale Card Lounge, we believe strategy games should be enjoyed in an environment that reflects elegance and absolute trust. Founded by gaming enthusiasts and software architects, our platform provides a pristine, lag-free arena for tactical card minds.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed text-sm sm:text-base">
+                        Every shuffling cycle, table layout, and card motion is developed using modern web graphics standards, providing Apple-like smoothness and responsive comfort across all screen ratios.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200/60">
+                            <div class="text-2xl font-black text-rose-700">100%</div>
+                            <div class="text-xs font-semibold text-gray-600">Fair Play Certified</div>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200/60">
+                            <div class="text-2xl font-black text-amber-700">256-Bit</div>
+                            <div class="text-xs font-semibold text-gray-600">Encrypted Protocol</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1541278107931-e006523892df?auto=format&fit=crop&w=800&q=80" alt="Strategic Planning" class="rounded-3xl shadow-2xl border-4 border-white object-cover w-full h-96" onerror="this.src='https://placehold.co/800x600/fef3c7/be123c?text=Strategic+Planning'">
+                </div>
+            </div>
+
+            <!-- Core Values -->
+            <div class="apple-glass p-8 sm:p-12 rounded-3xl border border-amber-200/50 space-y-8">
+                <h2 class="text-2xl font-bold serif-heading text-center text-gray-900">Our Core Pillars</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="space-y-3">
+                        <i class="fa-solid fa-heart text-2xl text-rose-600"></i>
+                        <h4 class="font-bold text-gray-900">Player-Centric Focus</h4>
+                        <p class="text-xs text-gray-600 leading-relaxed">We constantly refine our user experience based on direct community feedback and ergonomic research.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <i class="fa-solid fa-lock text-2xl text-amber-600"></i>
+                        <h4 class="font-bold text-gray-900">Uncompromised Security</h4>
+                        <p class="text-xs text-gray-600 leading-relaxed">Multi-layer encryption safeguards player data and ensures all interactions remain confidential.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <i class="fa-solid fa-wand-magic-sparkles text-2xl text-rose-600"></i>
+                        <h4 class="font-bold text-gray-900">Aesthetic Perfection</h4>
+                        <p class="text-xs text-gray-600 leading-relaxed">Light warm themes with smooth motions elevate ordinary gaming into an exhilarating lounge experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 4: BLOG PAGE (1200+ Words Structured Content) -->
+        <section id="page-blog" class="hidden space-y-12 animate-fadeIn">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+                <span class="text-xs uppercase font-bold tracking-widest text-rose-600 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">Ultimate Masterclass</span>
+                <h1 class="text-3xl sm:text-5xl font-extrabold serif-heading text-gray-900 leading-tight">Mastering Modern Card Strategy & Platform Selection</h1>
+                <div class="flex items-center justify-center gap-4 text-xs font-semibold text-gray-500">
+                    <span><i class="fa-regular fa-calendar mr-1"></i> Strategy Guide</span>
+                    <span>•</span>
+                    <span><i class="fa-regular fa-clock mr-1"></i> 10 Min Read</span>
+                </div>
+            </div>
+
+            <!-- Unsplash Gaming Visual -->
+            <div class="rounded-3xl overflow-hidden h-72 sm:h-96 shadow-xl border border-amber-200/50">
+                <img src="https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=1200&q=80" alt="Card Strategy Board" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1200x600/fef3c7/be123c?text=Card+Strategy+Board'">
+            </div>
+
+            <!-- Blog Post Body -->
+            <article class="apple-glass p-6 sm:p-12 rounded-3xl border border-amber-200/60 max-w-4xl mx-auto space-y-8 text-gray-700 leading-relaxed text-base">
+                
+                <!-- Intro Section -->
+                <p class="text-lg font-medium text-gray-800 leading-relaxed">
+                    Card games have evolved from casual parlor pastimes into intricate, high-level tactical pursuits that challenge psychological sharp-mindedness, pattern recognition, and mathematical probability. Among the vast ecosystem of modern card challenges, sequence building and set formation stand as classic pursuits. As mobile platforms continue to refine digital card physics, getting effortless access to authentic online tables has become paramount for enthusiasts globally.
+                </p>
+
+                <!-- Section 1 -->
+                <h2 class="text-2xl sm:text-3xl font-bold serif-heading text-gray-900 pt-4 border-b border-amber-200/50 pb-3">The Evolution of Digital Card Skill Arenas</h2>
+                <p>
+                    Transitioning traditional physical card games to high-definition touch interfaces requires more than simply drawing digital representations of Kings, Queens, and Aces. Modern software architecture focuses on tactile responsiveness, rapid connection stability, and transparent algorithmic dealing. When modern gamers seek high-level competition, they require applications engineered with low latency and intuitive user experience design.
+                </p>
+                <p>
+                    In this modern era, accessing reliable game software without restrictive lag is key to maintaining strategic focus. Players searching for verified setups often seek out streamlined solutions such as the <a href="https://officialallyonogames.com/rummy-111/" target="_blank" rel="noopener" class="font-bold text-rose-700 hover:text-amber-600 underline decoration-rose-300 decoration-2 underline-offset-4 transition-all">Rummy 111 game download</a> portal, which provides player-centric stability, vibrant table aesthetics, and instant multiplayer connectivity.
+                </p>
+                <p>
+                    Strategic card play relies heavily on memory retention and calculated risk management. Every turn demands immediate evaluation: should you pick from the open discarded pile or risk drawing an unknown card from the closed deck? Understanding these nuances separates novice card handlers from disciplined strategic masters.
+                </p>
+
+                <!-- Section 2 -->
+                <h2 class="text-2xl sm:text-3xl font-bold serif-heading text-gray-900 pt-4 border-b border-amber-200/50 pb-3">Core Strategic Pillars for Consistent Table Success</h2>
+                <p>
+                    Winning consistently at 13-card or 21-card sequence games is rarely a matter of raw luck. While dealing outcomes remain randomized, long-term success is determined by strict adherence to core strategic principles.
+                </p>
+
+                <h3 class="text-xl font-bold text-gray-900 pt-2">1. Prioritize Pure Sequences Early</h3>
+                <p>
+                    A pure sequence—a consecutive grouping of three or more cards of the same suit created without using wildcards or jokers—is your mandatory foundation. Without establishing a pure sequence early in the round, any accumulated sets or secondary sequences remain invalid upon declaration, leading to maximum point penalties. High-level competitors always focus their initial moves toward establishing this pure foundation before attempting speculative card melds.
+                </p>
+
+                <h3 class="text-xl font-bold text-gray-900 pt-2">2. Efficient High-Card Management</h3>
+                <p>
+                    High-value face cards (Face cards such as Kings, Queens, Jacks, and Aces) carry hefty point burdens (typically 10 points each). Holding unlinked high cards while waiting for a improbable sequence increases risk significantly. Skilled players evaluate high cards within the first three turns; if they fail to link into a potential sequence, discarding them mitigates potential point penalties in the event an opponent declares early.
+                </p>
+
+                <h3 class="text-xl font-bold text-gray-900 pt-2">3. Opponent Tracking and Discard Analysis</h3>
+                <p>
+                    Success in multiplayer arenas requires vigilant attention to your opponents' actions. Observe closely which cards your opponents pick from the open discard pile and which cards they drop. For instance, if an opponent picks a 7 of Hearts, avoid discarding surrounding cards like the 6 of Hearts or 8 of Hearts. Conversely, dropping cards outside their active collection zone keeps them starved of necessary completion pieces.
+                </p>
+
+                <!-- Mid-Article Unsplash Visual -->
+                <div class="my-8 rounded-2xl overflow-hidden shadow-lg border border-amber-200">
+                    <img src="https://images.unsplash.com/photo-1541278107931-e006523892df?auto=format&fit=crop&w=1000&q=80" alt="Focused Strategy" class="w-full h-64 object-cover" onerror="this.src='https://placehold.co/1000x400/fef3c7/be123c?text=Focused+Strategy'">
+                </div>
+
+                <!-- Section 3 -->
+                <h2 class="text-2xl sm:text-3xl font-bold serif-heading text-gray-900 pt-4 border-b border-amber-200/50 pb-3">Evaluating Digital Platforms for Safety and Fairness</h2>
+                <p>
+                    With hundreds of gaming applications available online, identifying legitimate and high-performing gaming suites is vital. Players should evaluate digital environments based on three main parameters:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                    <li><strong>RNG Certification:</strong> Ensures that card shuffling algorithms are fully independent, unbiased, and mathematically unpredictable.</li>
+                    <li><strong>Encryption & Security Protocols:</strong> Protects user data and account credentials using modern high-grade SSL/TLS standards.</li>
+                    <li><strong>Intuitive UI/UX Design:</strong> Reduces accidental card drops, misclicks, and input delays through responsive touch controls and crisp visuals.</li>
+                </ul>
+                <p>
+                    Modern players seeking seamless software performance often utilize direct links such as the official <a href="https://officialallyonogames.com/rummy-111/" target="_blank" rel="noopener" class="font-bold text-rose-700 hover:text-amber-600 underline decoration-rose-300 decoration-2 underline-offset-4 transition-all">Rummy 111 game download</a> option to ensure they receive authentic, secure application files optimized specifically for modern operating systems.
+                </p>
+
+                <!-- Section 4 -->
+                <h2 class="text-2xl sm:text-3xl font-bold serif-heading text-gray-900 pt-4 border-b border-amber-200/50 pb-3">Psychological Discipline and Bankroll Control</h2>
+                <p>
+                    Beyond card combinations and math, emotional regulation defines elite card players. Strategic fatigue or frustration can lead to hasty decisions, such as holding unpromising hands or making impulsive discards.
+                </p>
+                <p>
+                    Establishing clear playing limits, taking regular breaks during extended sessions, and treating every round as an isolated strategic puzzle helps preserve mental clarity. By maintaining psychological poise and selecting top-tier gaming environments, players maximize both their enjoyment and competitive performance over time.
+                </p>
+
+                <!-- Conclusion Section -->
+                <div class="p-6 rounded-2xl bg-gradient-to-r from-amber-100/60 via-rose-100/60 to-amber-100/60 border border-amber-200 space-y-3 mt-8">
+                    <h3 class="text-xl font-bold text-gray-900 serif-heading">Concluding Strategic Insights</h3>
+                    <p class="text-sm text-gray-700 leading-relaxed">
+                        Mastering digital card strategy demands a balance of structured sequence priority, vigilant opponent reading, disciplined point minimization, and choosing a trustworthy platform. By relying on certified software setups like the verified <a href="https://officialallyonogames.com/rummy-111/" target="_blank" rel="noopener" class="font-bold text-rose-700 hover:text-amber-600 underline text-amber-800">Rummy 111 game download</a> package and practicing consistent mental discipline, strategy enthusiasts can experience the pinnacle of competitive digital card entertainment.
+                    </p>
+                </div>
+
+                <!-- FAQ Section (FNP / Frequently Asked Questions) -->
+                <div class="pt-8 space-y-6">
+                    <h3 class="text-2xl font-bold serif-heading text-gray-900 border-b border-amber-200/50 pb-3">Frequently Navigated Points (FNP)</h3>
+
+                    <div class="space-y-4">
+                        <div class="p-4 rounded-xl bg-white/70 border border-amber-200/50 space-y-1">
+                            <h4 class="font-bold text-gray-900 text-sm">Q1: How do I ensure my pure sequence is formed correctly?</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">A pure sequence consists of three or more consecutive cards of the exact same suit without using any wildcards or printed jokers. Always verify suit icons before declaring.</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-white/70 border border-amber-200/50 space-y-1">
+                            <h4 class="font-bold text-gray-900 text-sm">Q2: Where can I obtain verified card game software packages?</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">Always obtain software through official portal links such as the trusted <a href="https://officialallyonogames.com/rummy-111/" target="_blank" rel="noopener" class="font-semibold text-rose-600 underline">Rummy 111 game download</a> page to safeguard your device against unverified third-party files.</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-white/70 border border-amber-200/50 space-y-1">
+                            <h4 class="font-bold text-gray-900 text-sm">Q3: What is the optimal initial move if my dealt hand lacks jokers?</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">Focus immediately on evaluating your closest consecutive suit matches to establish a pure sequence. If your starting hand is disconnected with high point values, consider dropping early to minimize points lost.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </article>
+        </section>
+
+        <!-- PAGE 5: CONTACT PAGE (Client-Side Lead Capture Form) -->
+        <section id="page-contact" class="hidden space-y-12 animate-fadeIn max-w-4xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto space-y-4">
+                <span class="text-xs uppercase font-bold tracking-widest text-rose-600 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">Connect With Us</span>
+                <h1 class="text-4xl font-extrabold serif-heading text-gray-900">Send Us a Direct Message</h1>
+                <p class="text-gray-600">Have questions, feedback, or strategic inquiries? Submit your details below and our concierge team will respond directly to your request.</p>
+            </div>
+
+            <!-- Lead Capture Form Card -->
+            <div class="apple-glass p-8 sm:p-12 rounded-3xl border border-amber-200/60 shadow-xl relative overflow-hidden">
+                <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Full Name Input -->
+                        <div class="space-y-2">
+                            <label for="user_name" class="block text-xs font-bold uppercase tracking-wider text-gray-700">Your Full Name</label>
+                            <input type="text" id="user_name" required placeholder="e.g. Alex Morgan" class="w-full px-4 py-3.5 rounded-xl bg-white/80 border border-amber-200 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 outline-none transition-all duration-200 text-sm">
+                        </div>
+
+                        <!-- Phone Number Input -->
+                        <div class="space-y-2">
+                            <label for="user_phone" class="block text-xs font-bold uppercase tracking-wider text-gray-700">Phone Number</label>
+                            <input type="tel" id="user_phone" required placeholder="+1 (555) 000-0000" class="w-full px-4 py-3.5 rounded-xl bg-white/80 border border-amber-200 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 outline-none transition-all duration-200 text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Email Address Input -->
+                    <div class="space-y-2">
+                        <label for="user_email" class="block text-xs font-bold uppercase tracking-wider text-gray-700">Email Address</label>
+                        <input type="email" id="user_email" required placeholder="alex@example.com" class="w-full px-4 py-3.5 rounded-xl bg-white/80 border border-amber-200 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 outline-none transition-all duration-200 text-sm">
+                    </div>
+
+                    <!-- Message Textarea -->
+                    <div class="space-y-2">
+                        <label for="user_message" class="block text-xs font-bold uppercase tracking-wider text-gray-700">Your Message</label>
+                        <textarea id="user_message" rows="5" required placeholder="How can our studio assist you today?" class="w-full px-4 py-3.5 rounded-xl bg-white/80 border border-amber-200 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 outline-none transition-all duration-200 text-sm resize-none"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-600 via-rose-600 to-amber-700 text-white font-bold text-sm shadow-lg shadow-rose-500/25 hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+
+                <!-- Success Confirmation Message Container (Hidden by default) -->
+                <div id="form-success" class="hidden absolute inset-0 bg-white/95 backdrop-blur-md flex flex-col items-center justify-center p-8 text-center space-y-4 animate-fadeIn">
+                    <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl font-bold">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 serif-heading">Message Successfully Sent!</h3>
+                    <p class="text-sm text-gray-600 max-w-md">Thank you for reaching out. Your details have been submitted securely. Our team will get back to you shortly.</p>
+                    <button onclick="resetContactForm()" class="px-6 py-2.5 rounded-full bg-amber-500/10 text-amber-800 font-semibold text-xs hover:bg-amber-500/20 transition-all">
+                        Send Another Message
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="apple-glass border-t border-amber-200/50 mt-16 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+                <!-- Brand Info -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-center md:justify-start gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-amber-500 to-rose-600 flex items-center justify-center text-white font-bold text-xs">R</div>
+                        <span class="font-bold serif-heading text-lg text-gray-900">Royale Card Lounge</span>
+                    </div>
+                    <p class="text-xs text-gray-500">Elevating digital strategy card gaming with luxury UI and high-grade performance.</p>
+                </div>
+
+                <!-- Footer Links -->
+                <div class="flex flex-wrap justify-center gap-6 text-xs font-semibold text-gray-600">
+                    <button onclick="switchTab('home')" class="hover:text-rose-600 transition-colors">Home</button>
+                    <button onclick="switchTab('service')" class="hover:text-rose-600 transition-colors">Services</button>
+                    <button onclick="switchTab('about')" class="hover:text-rose-600 transition-colors">About Us</button>
+                    <button onclick="switchTab('blog')" class="hover:text-rose-600 transition-colors">Blog Guide</button>
+                    <button onclick="switchTab('contact')" class="hover:text-rose-600 transition-colors">Contact</button>
+                </div>
+            </div>
+
+            <div class="border-t border-amber-200/30 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-4">
+                <p>&copy; 2026 Royale Card Lounge. All rights reserved.</p>
+                <div class="flex items-center space-x-4">
+                    <a href="https://officialallyonogames.com/rummy-111/" target="_blank" rel="noopener" class="hover:text-rose-600 transition-colors">Official Portal</a>
+                    <span>•</span>
+                    <span class="text-amber-600 font-semibold">18+ Play Responsibly</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Embedded Client-Side JavaScript Logic -->
+    <script>
+        // Page Navigation Logic (Tab Switching without reloads)
+        function switchTab(tabId) {
+            // Hide all pages
+            const pages = ['home', 'service', 'about', 'blog', 'contact'];
+            pages.forEach(p => {
+                const pageEl = document.getElementById('page-' + p);
+                const navBtn = document.getElementById('nav-' + p);
+                if (pageEl) pageEl.classList.add('hidden');
+                if (navBtn) navBtn.classList.remove('active', 'text-rose-600', 'font-bold');
+            });
+
+            // Show selected page
+            const selectedPage = document.getElementById('page-' + tabId);
+            const selectedNav = document.getElementById('nav-' + tabId);
+            if (selectedPage) {
+                selectedPage.classList.remove('hidden');
+            }
+            if (selectedNav) {
+                selectedNav.classList.add('active', 'text-rose-600', 'font-bold');
+            }
+
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+
+            // Scroll to top smooth
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Interactive Card Shuffle Effect
+        function shuffleEffect() {
+            const shuffleArea = document.getElementById('shuffle-area');
+            if (shuffleArea) {
+                shuffleArea.style.opacity = '0.3';
+                shuffleArea.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    // Randomize rotation angles
+                    const cards = shuffleArea.children;
+                    for (let card of cards) {
+                        const randomRot = Math.floor(Math.random() * 20) - 10;
+                        card.style.transform = `rotate(${randomRot}deg)`;
+                    }
+                    shuffleArea.style.opacity = '1';
+                    shuffleArea.style.transform = 'scale(1)';
+                }, 300);
+            }
+        }
+
+        // Contact Form Handling (Client-Side)
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const successOverlay = document.getElementById('form-success');
+            if (successOverlay) {
+                successOverlay.classList.remove('hidden');
+            }
+        }
+
+        function resetContactForm() {
+            const form = document.getElementById('contact-form');
+            const successOverlay = document.getElementById('form-success');
+            if (form) form.reset();
+            if (successOverlay) successOverlay.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
